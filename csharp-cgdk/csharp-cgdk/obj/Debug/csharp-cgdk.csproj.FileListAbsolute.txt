@@ -1,0 +1,5 @@
+M:\Соревнования\csharp-cgdk\csharp-cgdk\bin\Debug\csharp-cgdk.exe.config
+M:\Соревнования\csharp-cgdk\csharp-cgdk\bin\Debug\csharp-cgdk.exe
+M:\Соревнования\csharp-cgdk\csharp-cgdk\bin\Debug\csharp-cgdk.pdb
+M:\Соревнования\csharp-cgdk\csharp-cgdk\obj\Debug\csharp-cgdk.exe
+M:\Соревнования\csharp-cgdk\csharp-cgdk\obj\Debug\csharp-cgdk.pdb
