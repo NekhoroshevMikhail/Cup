@@ -28,9 +28,15 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
 
 
         public void Move(Wizard self, World world, Game game, Move move) {
+
+            var myOwnWizard = new MyWizard(self);
+            myOwnWizard.GetNewSkillIfICan(move);
+
+            /*
+
             initializeStrategy(self, game);
             initializeTick(self, world, game, move);
-
+            
             // Постоянно двигаемся из-стороны в сторону, чтобы по нам было сложнее попасть.
             // Считаете, что сможете придумать более эффективный алгоритм уклонения? Попробуйте! ;)
             move.StrafeSpeed = 0;//random.nextBoolean() ? game.getWizardStrafeSpeed() : -game.getWizardStrafeSpeed());
@@ -71,7 +77,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
             }
 
             // Если нет других действий, просто продвигаемся вперёд.
-            goTo(getNextWaypoint());
+            goTo(getNextWaypoint());*/
         }
 
 
