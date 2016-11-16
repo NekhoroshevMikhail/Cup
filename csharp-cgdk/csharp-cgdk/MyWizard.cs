@@ -2,7 +2,7 @@
 // Copyright ElcomPlus LLC. All rights reserved.
 // Author: Нехорошев М. В.
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
-
+using System.Linq;
 using Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk.Model;
 
 namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
@@ -30,6 +30,8 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
 
         #region Fields
 
+        private SkillsManager _skillsManager;
+
         #endregion Fields
 
         #region Properties
@@ -51,7 +53,6 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
         }
         
         #endregion Properties
-
 
         #region Constructors
 
@@ -81,6 +82,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                 w.RemainingCooldownTicksByAction,
                 w.IsMaster, w.Messages)
         {
+            _skillsManager = new SkillsManager();
         }
 
         #endregion Constructors
@@ -94,7 +96,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
         {
             if (CanGetNewSkill)
             {
-                move.SkillToLearn = 
+                move.SkillToLearn = _skillsManager.GetNextSkillTypeToLearn(Skills);
             }
         }
 
@@ -103,6 +105,18 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
             get { return Skills.Length < Level; }
         }
 
+        public ActionType? ChoseBestAttackMethod()
+        {
+            if (Skills.Contains(SkillType.Fireball))
+            {
+                return ActionType.Fireball;
+            }
+            if (Skills.Contains(SkillType.FrostBolt))
+            {
+                return ActionType.FrostBolt;
+            }
+            return ActionType.MagicMissile;
+        }
 
     }
 }

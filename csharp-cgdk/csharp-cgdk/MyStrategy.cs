@@ -32,7 +32,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
             var myOwnWizard = new MyWizard(self);
             myOwnWizard.GetNewSkillIfICan(move);
 
-            /*
+            
 
             initializeStrategy(self, game);
             initializeTick(self, world, game, move);
@@ -67,7 +67,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
                     if (Math.Abs(angle) < game.StaffSector / 2.0D)
                     {
                         // ... то атакуем.
-                        move.Action = ActionType.MagicMissile;
+                        move.Action = myOwnWizard.ChoseBestAttackMethod(); ;
                         move.CastAngle = angle;
                         move.MinCastDistance = distance - nearestTarget.Radius + game.MagicMissileRadius;
                     }
@@ -77,7 +77,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
             }
 
             // Если нет других действий, просто продвигаемся вперёд.
-            goTo(getNextWaypoint());*/
+            goTo(getNextWaypoint());
         }
 
 

@@ -3,3 +3,7 @@
 ################################################################################
 
 /csharp-cgdk/csharp-cgdk/bin/Debug
+/csharp-cgdk/csharp-cgdk/bin/
+/csharp-cgdk/csharp-cgdk/obj/
+/csharp-cgdk/csharp-cgdk/obj/Debug
+/local-runner/game.log

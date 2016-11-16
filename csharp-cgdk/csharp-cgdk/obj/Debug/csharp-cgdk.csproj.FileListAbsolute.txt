@@ -3,3 +3,7 @@ M:\Соревнования\csharp-cgdk\csharp-cgdk\bin\Debug\csharp-cgdk.exe
 M:\Соревнования\csharp-cgdk\csharp-cgdk\bin\Debug\csharp-cgdk.pdb
 M:\Соревнования\csharp-cgdk\csharp-cgdk\obj\Debug\csharp-cgdk.exe
 M:\Соревнования\csharp-cgdk\csharp-cgdk\obj\Debug\csharp-cgdk.pdb
+C:\Users\NehoroshevMV\Source\Repos\Cup2\Cup\csharp-cgdk\csharp-cgdk\bin\Debug\csharp-cgdk.exe.config
+C:\Users\NehoroshevMV\Source\Repos\Cup2\Cup\csharp-cgdk\csharp-cgdk\obj\Debug\csharp-cgdk.exe
+C:\Users\NehoroshevMV\Source\Repos\Cup2\Cup\csharp-cgdk\csharp-cgdk\obj\Debug\csharp-cgdk.pdb
+C:\Users\NehoroshevMV\Source\Repos\Cup2\Cup\csharp-cgdk\csharp-cgdk\obj\Debug\csharp-cgdk.csprojResolveAssemblyReference.cache

@@ -82,9 +82,17 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                     }));
         }
 
-        public SkillType GetNextSkillTypeToLearn()
+        public SkillType? GetNextSkillTypeToLearn(SkillType[] wizardSkills)
         {
-
+            foreach (var skillGroup in _skillGroups)
+            {
+                SkillType? result = skillGroup.GetNextAvailableSkill(wizardSkills);
+                if (result.HasValue)
+                {
+                    return result;
+                }
+            }
+            return null;
         }
 
         #endregion
