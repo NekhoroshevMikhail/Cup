@@ -29,10 +29,8 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
 
         public void Move(Wizard self, World world, Game game, Move move) {
 
-            var myOwnWizard = new MyWizard(self);
+            var myOwnWizard = new MyWizard(self, game);
             myOwnWizard.GetNewSkillIfICan(move);
-
-            
 
             initializeStrategy(self, game);
             initializeTick(self, world, game, move);

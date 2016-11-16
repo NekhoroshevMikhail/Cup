@@ -9,7 +9,6 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
 {
     public class MyWizard : Wizard
     {
-
         #region Constants
 
         /// <summary>
@@ -31,6 +30,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
         #region Fields
 
         private SkillsManager _skillsManager;
+        private Game _game;
 
         #endregion Fields
 
@@ -56,7 +56,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
 
         #region Constructors
 
-        public MyWizard(Wizard w) :
+        public MyWizard(Wizard w, Game g) :
             base(
                 w.Id,
                 w.X,
@@ -83,6 +83,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                 w.IsMaster, w.Messages)
         {
             _skillsManager = new SkillsManager();
+            _game = g;
         }
 
         #endregion Constructors
@@ -107,13 +108,24 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
 
         public ActionType? ChoseBestAttackMethod()
         {
+            
             if (Skills.Contains(SkillType.Fireball))
             {
-                return ActionType.Fireball;
+                int remainingFrostBoltTicks = RemainingCooldownTicksByAction[(int)ActionType.Fireball];
+                bool enoghMana = _game.FireballManacost < Mana;
+                if (remainingFrostBoltTicks == 0 && enoghMana)
+                {
+                    return ActionType.Fireball;
+                }
             }
             if (Skills.Contains(SkillType.FrostBolt))
             {
-                return ActionType.FrostBolt;
+                int remainingFrostBoltTicks = RemainingCooldownTicksByAction[(int)ActionType.FrostBolt];
+                bool enoghMana = _game.FrostBoltManacost < Mana;
+                if (remainingFrostBoltTicks == 0 && enoghMana)
+                {
+                    return ActionType.FrostBolt;
+                }
             }
             return ActionType.MagicMissile;
         }

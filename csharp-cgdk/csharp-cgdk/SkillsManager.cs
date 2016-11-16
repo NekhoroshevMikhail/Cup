@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk.Model;
 
 namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
@@ -22,9 +23,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
         }
 
         #endregion
-
-
-
+        
         #region Methods
 
 
@@ -84,9 +83,10 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
 
         public SkillType? GetNextSkillTypeToLearn(SkillType[] wizardSkills)
         {
-            foreach (var skillGroup in _skillGroups)
+            //foreach (var skillGroup in _skillGroups)
+            for (int i = 1; i < _skillGroups.Count; i++)
             {
-                SkillType? result = skillGroup.GetNextAvailableSkill(wizardSkills);
+                SkillType? result = _skillGroups[i].GetNextAvailableSkill(wizardSkills);
                 if (result.HasValue)
                 {
                     return result;
