@@ -2,8 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/csharp-cgdk/csharp-cgdk/bin/Debug
 /csharp-cgdk/csharp-cgdk/bin/
-/csharp-cgdk/csharp-cgdk/obj/
-/csharp-cgdk/csharp-cgdk/obj/Debug
+/csharp-cgdk/csharp-cgdk/bin/*
+/csharp-cgdk/csharp-cgdk/obj/*
 /local-runner/game.log
