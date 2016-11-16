@@ -14,11 +14,18 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
 
         #endregion Fields
 
+        #region Properties
+
+        public int Priority { get; private set; }
+
+        #endregion Properties
+        
         #region Constructor
 
-        public SkillGroup(SkillType[] availableSkillTypes)
+        public SkillGroup(SkillType[] availableSkillTypes, int priority)
         {
             _availableSkillTypes = availableSkillTypes;
+            Priority = priority;
         }
 
         #endregion

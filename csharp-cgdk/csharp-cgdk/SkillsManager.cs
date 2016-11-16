@@ -38,7 +38,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                         SkillType.RangeBonusPassive2,
                         SkillType.RangeBonusAura2,
                         SkillType.AdvancedMagicMissile
-                    }));
+                    }, 2));
 
             _skillGroups.Add(
                     new SkillGroup(new SkillType[]
@@ -48,7 +48,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                         SkillType.MagicalDamageBonusPassive2,
                         SkillType.MagicalDamageBonusAura2,
                         SkillType.FrostBolt
-                    }));
+                    }, 3));
             _skillGroups.Add(
                 new SkillGroup(
                     new SkillType[]
@@ -58,7 +58,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                         SkillType.StaffDamageBonusPassive2,
                         SkillType.StaffDamageBonusAura2,
                         SkillType.Fireball
-                    }));
+                    }, 4));
             _skillGroups.Add(
                 new SkillGroup(
                     new SkillType[]
@@ -68,7 +68,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                         SkillType.MovementBonusFactorPassive2,
                         SkillType.MovementBonusFactorAura2,
                         SkillType.Haste
-                    }));
+                    }, 5));
             _skillGroups.Add(
                 new SkillGroup(
                     new SkillType[]
@@ -78,7 +78,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                         SkillType.MagicalDamageAbsorptionPassive2,
                         SkillType.MagicalDamageAbsorptionAura2,
                         SkillType.Shield
-                    }));
+                    }, 1));
         }
 
         public SkillType? GetNextSkillTypeToLearn(SkillType[] wizardSkills)
