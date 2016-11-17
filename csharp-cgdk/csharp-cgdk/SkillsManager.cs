@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 using Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk.Model;
 
@@ -79,12 +80,13 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
                         SkillType.MagicalDamageAbsorptionAura2,
                         SkillType.Shield
                     }, 1));
+            _skillGroups = _skillGroups.OrderBy(o => o.Priority).ToList();
+
         }
 
         public SkillType? GetNextSkillTypeToLearn(SkillType[] wizardSkills)
         {
-            //foreach (var skillGroup in _skillGroups)
-            for (int i = 1; i < _skillGroups.Count; i++)
+            for (int i = 0; i < _skillGroups.Count; i++)
             {
                 SkillType? result = _skillGroups[i].GetNextAvailableSkill(wizardSkills);
                 if (result.HasValue)
@@ -96,6 +98,5 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk
         }
 
         #endregion
-
     }
 }

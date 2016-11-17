@@ -6,8 +6,6 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
     public sealed class MyStrategy : IStrategy {
         private static double WAYPOINT_RADIUS = 100.0D;
 
-        private static double LOW_HP_FACTOR = 0.25D;
-
         /**
          * Ключевые точки для каждой линии, позволяющие упростить управление перемещением волшебника.
          * <p>
@@ -21,65 +19,40 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
         private LaneType line;
         private Point2D[] waypoints;
 
-        private Wizard self;
-        private World world;
-        private Game game;
-        private Move move;
+        private MyWizard _myWizard;
+        private World _world;
+        private Game _game;
+        private Move _move;
 
 
         public void Move(Wizard self, World world, Game game, Move move) {
 
-            var myOwnWizard = new MyWizard(self, game);
-            myOwnWizard.GetNewSkillIfICan(move);
-
-            initializeStrategy(self, game);
             initializeTick(self, world, game, move);
-            
+            _myWizard.GetNewSkillIfICan();
+            if (_myWizard.IsLowHealth())
+            {
+                _myWizard.RunAwayAndAttack();
+                return;
+            }
             // Постоянно двигаемся из-стороны в сторону, чтобы по нам было сложнее попасть.
             // Считаете, что сможете придумать более эффективный алгоритм уклонения? Попробуйте! ;)
-            move.StrafeSpeed = 0;//random.nextBoolean() ? game.getWizardStrafeSpeed() : -game.getWizardStrafeSpeed());
+            //move.StrafeSpeed = 0;//random.nextBoolean() ? game.getWizardStrafeSpeed() : -game.getWizardStrafeSpeed());
 
             // Если осталось мало жизненной энергии, отступаем к предыдущей ключевой точке на линии.
-            if (self.Life < self.MaxLife * LOW_HP_FACTOR)
+            /*if (self.Life < self.MaxLife * LOW_HP_FACTOR)
             {
                 goTo(getPreviousWaypoint());
                 return;
-            }
+            }*/
 
-            LivingUnit nearestTarget = getNearestTarget();
-
-            // Если видим противника ...
-            if (nearestTarget != null)
-            {
-                double distance = self.GetDistanceTo(nearestTarget);
-
-                // ... и он в пределах досягаемости наших заклинаний, ...
-                if (distance <= self.CastRange)
-                {
-                    double angle = self.GetAngleTo(nearestTarget);
-
-                    // ... то поворачиваемся к цели.
-                    move.Turn = angle;
-
-                    // Если цель перед нами, ...
-                    if (Math.Abs(angle) < game.StaffSector / 2.0D)
-                    {
-                        // ... то атакуем.
-                        move.Action = myOwnWizard.ChoseBestAttackMethod(); ;
-                        move.CastAngle = angle;
-                        move.MinCastDistance = distance - nearestTarget.Radius + game.MagicMissileRadius;
-                    }
-
-                    return;
-                }
-            }
-
+            _myWizard.TryAttackEnemy();
+            _myWizard.GoToEnemyBase();
             // Если нет других действий, просто продвигаемся вперёд.
-            goTo(getNextWaypoint());
+            //goTo(getNextWaypoint());
         }
 
 
-        private void initializeStrategy(Wizard self, Game game)
+        /*private void initializeStrategy(Wizard self, Game game)
         {
             if (random == null)
             {
@@ -91,6 +64,7 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
 
                 waypointsByLine.Add(LaneType.Middle, new Point2D[]{
                     new Point2D(100.0D, mapSize - 100.0D),
+                    new Point2D(100.0D, mapSize - 600.0D),
                     result
                             ? new Point2D(600.0D, mapSize - 200.0D)
                             : new Point2D(200.0D, mapSize - 600.0D),
@@ -148,7 +122,6 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
                     default:
                         break;
                 }
-
                 waypoints = waypointsByLine[line];
 
                 // Наша стратегия исходит из предположения, что заданные нами ключевые точки упорядочены по убыванию
@@ -159,19 +132,19 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
 
                 Preconditions.checkState(ArrayUtils.isSorted(waypoints, (waypointA, waypointB) -> Double.compare(
                         waypointB.getDistanceTo(lastWaypoint), waypointA.getDistanceTo(lastWaypoint)
-                )));*/
+                )));
             }
-        }
+        }*/
 
         private void initializeTick(Wizard self, World world, Game game, Move move)
         {
-            this.self = self;
-            this.world = world;
-            this.game = game;
-            this.move = move;
+            _myWizard = new MyWizard(self, game, world, move);
+            _world = world;
+            _game = game;
+            _move = move;
         }
 
-        private Point2D getNextWaypoint()
+        /*private Point2D getNextWaypoint()
         {
             int lastWaypointIndex = waypoints.Length - 1;
             Point2D lastWaypoint = waypoints[lastWaypointIndex];
@@ -180,135 +153,60 @@ namespace Com.CodeGame.CodeWizards2016.DevKit.CSharpCgdk {
             {
                 Point2D waypoint = waypoints[waypointIndex];
 
-                if (waypoint.getDistanceTo(self) <= WAYPOINT_RADIUS)
+                if (waypoint.getDistanceTo(_myWizard) <= WAYPOINT_RADIUS)
                 {
                     return waypoints[waypointIndex + 1];
                 }
 
-                if (lastWaypoint.getDistanceTo(waypoint) < lastWaypoint.getDistanceTo(self))
+                if (lastWaypoint.getDistanceTo(waypoint) < lastWaypoint.getDistanceTo(_myWizard))
                 {
                     return waypoint;
                 }
             }
 
             return lastWaypoint;
-        }
+        }*/
 
         /**
          * Действие данного метода абсолютно идентично действию метода {@code getNextWaypoint}, если перевернуть массив
          * {@code waypoints}.
-         */
-        private Point2D getPreviousWaypoint()
-        {
-            Point2D firstWaypoint = waypoints[0];
+        // */
+        //private Point2D getPreviousWaypoint()
+        //{
+        //    Point2D firstWaypoint = waypoints[0];
 
-            for (int waypointIndex = waypoints.Length - 1; waypointIndex > 0; --waypointIndex)
-            {
-                Point2D waypoint = waypoints[waypointIndex];
+        //    for (int waypointIndex = waypoints.Length - 1; waypointIndex > 0; --waypointIndex)
+        //    {
+        //        Point2D waypoint = waypoints[waypointIndex];
 
-                if (waypoint.getDistanceTo(self) <= WAYPOINT_RADIUS)
-                {
-                    return waypoints[waypointIndex - 1];
-                }
+        //        if (waypoint.getDistanceTo(_myWizard) <= WAYPOINT_RADIUS)
+        //        {
+        //            return waypoints[waypointIndex - 1];
+        //        }
 
-                if (firstWaypoint.getDistanceTo(waypoint) < firstWaypoint.getDistanceTo(self))
-                {
-                    return waypoint;
-                }
-            }
+        //        if (firstWaypoint.getDistanceTo(waypoint) < firstWaypoint.getDistanceTo(_myWizard))
+        //        {
+        //            return waypoint;
+        //        }
+        //    }
 
-            return firstWaypoint;
-        }
+        //    return firstWaypoint;
+        //}
 
-        /**
-         * Простейший способ перемещения волшебника.
-         */
-        private void goTo(Point2D point)
-        {
-            double angle = self.GetAngleTo(point.X, point.Y);
+        ///**
+        // * Простейший способ перемещения волшебника.
+        // */
+        //private void goTo(Point2D point)
+        //{
+        //    double angle = _myWizard.GetAngleTo(point.X, point.Y);
 
-            move.Turn = angle;
+        //    _move.Turn = angle;
 
-            if (Math.Abs(angle) < game.StaffSector / 4.0D)
-            {
-                move.Speed = game.WizardForwardSpeed;
-            }
-        }
-
-        /**
-         * Находим ближайшую цель для атаки, независимо от её типа и других характеристик.
-         */
-        private LivingUnit getNearestTarget()
-        {
-            List<LivingUnit> targets = new List<LivingUnit>();
-            targets.AddRange(world.Buildings);
-            targets.AddRange(world.Wizards);
-            targets.AddRange(world.Minions);
-
-            LivingUnit nearestTarget = null;
-            double nearestTargetDistance = Double.MaxValue;
-
-            foreach (LivingUnit target in targets)
-            {
-                if (target.Faction == Faction.Neutral || target.Faction == self.Faction)
-                {
-                    continue;
-                }
-
-                double distance = self.GetDistanceTo(target);
-
-                if (distance < nearestTargetDistance)
-                {
-                    nearestTarget = target;
-                    nearestTargetDistance = distance;
-                }
-            }
-
-            return nearestTarget;
-        }
-
-        /**
-         * Вспомогательный класс для хранения позиций на карте.
-         */
-        private class Point2D
-        {
-            private double _x;
-            private double _y;
-
-            public Point2D(double x, double y)
-            {
-                _x = x;
-                _y = y;
-            }
-
-            public double X
-            {
-                get { return _x; } 
-            }
-
-            public double Y
-            {
-                get {
-                    return _y;
-                }
-            }
-
-            public double getDistanceTo(double x, double y)
-            {
-                //return Math.Hypot(_x - x, _y - y);
-                return Math.Sqrt(Math.Pow(_x - x, 2) + Math.Pow(_y - y, 2));
-            }
-
-            public double getDistanceTo(Point2D point)
-            {
-                return getDistanceTo(point.X, point.Y);
-            }
-
-            public double getDistanceTo(Unit unit)
-            {
-                return getDistanceTo(unit.X, unit.Y);
-            }
-        }
+        //    if (Math.Abs(angle) < _game.StaffSector / 4.0D)
+        //    {
+        //        _move.Speed = _game.WizardForwardSpeed;
+        //    }
+        //}
     }
     
 }
